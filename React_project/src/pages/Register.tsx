@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import AuthForm from '../components/AuthForm';
 
-const Register = () => {
+const RegisterPage: React.FC = () => {
   return (
-    <div>Register</div>
-  )
-}
+    <div>
+      <AuthForm isLogin={false} />
+    </div>
+  );
+};
 
-export default Register
+export default RegisterPage;
