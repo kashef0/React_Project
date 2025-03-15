@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store'; 
 import { setSelectedBook } from '../store/slices/bookSlice'; 
-import BookDetail from '../components/BookDetail'; 
+import BookDetail from '../components/BookDetails'; 
 import ReviewList from '../components/ReviewList'; 
 import ReviewForm from '../components/ReviewForm'; 
 import { setReviewLoading, setReviews } from '../store/slices/reviewSlice'; 
