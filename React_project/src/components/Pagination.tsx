@@ -1,9 +1,9 @@
 import React from "react";
 
 interface PaginationProps {
-  totalItems: number; 
-  currentPage: number; 
-  itemsPerPage: number; 
+  totalItems: number;
+  currentPage: number;
+  itemsPerPage: number;
   onPageChange: (page: number) => void; // Funktion för att ändra sida
   onItemsPerPageChange: (itemsPerPage: number) => void; // Funktion för att ändra antal böcker per sida
 }
@@ -27,7 +27,10 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
       <div className="flex items-center space-x-2">
-        <label className="text-sm font-medium text-gray-700">Böcker per sida:</label> {/* Text för "Items per page" */}
+        <label className="text-sm font-medium text-gray-700">
+          Böcker per sida:
+        </label>{" "}
+        {/* Text för "Items per page" */}
         <select
           value={itemsPerPage}
           onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
@@ -35,25 +38,33 @@ const Pagination: React.FC<PaginationProps> = ({
         >
           {options.map((option) => (
             <option key={option} value={option}>
-              {option} 
+              {option}
             </option>
           ))}
         </select>
       </div>
 
       <div className="text-sm text-gray-700">
-        Visar <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span> till{" "}
-        <span className="font-medium">{Math.min(currentPage * itemsPerPage, totalItems)}</span> av{" "}
-        <span className="font-medium">{totalItems}</span> resultat 
+        Visar{" "}
+        <span className="font-medium">
+          {(currentPage - 1) * itemsPerPage + 1}
+        </span>{" "}
+        till{" "}
+        <span className="font-medium">
+          {isNaN(Math.min(currentPage * itemsPerPage, totalItems))
+            ? "laddar..."
+            : Math.min(currentPage * itemsPerPage, totalItems)}
+        </span>{" "}
+        av <span className="font-medium">{totalItems}</span> resultat
       </div>
 
       <nav className="flex space-x-2">
         <button
-          disabled={currentPage === 1} 
+          disabled={currentPage === 1}
           onClick={() => onPageChange(currentPage - 1)}
           className="px-3 py-1 border rounded-md text-gray-700 bg-gray-100 disabled:opacity-50"
         >
-          Föregående 
+          Föregående
         </button>
 
         <select
@@ -63,17 +74,17 @@ const Pagination: React.FC<PaginationProps> = ({
         >
           {pageNumbers.map((page) => (
             <option key={page} value={page}>
-              Sida {page} 
+              Sida {page}
             </option>
           ))}
         </select>
 
         <button
-          disabled={currentPage === totalPages} 
+          disabled={currentPage === totalPages}
           onClick={() => onPageChange(currentPage + 1)}
           className="px-3 py-1 border rounded-md text-gray-700 bg-gray-100 disabled:opacity-50"
         >
-          Nästa 
+          Nästa
         </button>
       </nav>
     </div>
