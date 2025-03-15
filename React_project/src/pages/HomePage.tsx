@@ -18,14 +18,14 @@ const HomePage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10); // välja antal böcker per sida
   const [query, setQuery] = useState(""); // Sökfråga för att hämta böcker
-
+  const BOOK_URL = import.meta.env.VITE_BOOKS_API_URL;
   // Använder custom hook `useGet` för att hämta böcker från Google Books API
   const { data: bookData, error, loading } = useGet<BookItem>(
     query
-      ? `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${
+      ? `${BOOK_URL}?q=${query}&startIndex=${
           (currentPage - 1) * itemsPerPage
         }&maxResults=${itemsPerPage}`
-      : `https://www.googleapis.com/books/v1/volumes?q=category:romance&love&action&drama&startIndex=${
+      : `${BOOK_URL}?q=category:romance&love&action&drama&startIndex=${
           (currentPage - 1) * itemsPerPage
         }&maxResults=${itemsPerPage}`,
     false
@@ -49,7 +49,7 @@ const HomePage: React.FC = () => {
   const handleSearch = (searchQuery: string) => {
     setQuery(searchQuery); // Uppdaterar query för att trigga useGet och hämta ny data
   };
-
+ 
   return (
     <div>
       <SearchBar onSearch={handleSearch} />
@@ -64,6 +64,7 @@ const HomePage: React.FC = () => {
 
       <BookList books={searchResults} />
       <Pagination
+          isLoading={loading}
           totalItems={bookData.totalItems}
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
