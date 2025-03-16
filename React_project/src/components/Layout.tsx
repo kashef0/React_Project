@@ -8,7 +8,7 @@ const Layout = () => {
       <header className="bg-gray-800">
         <Header />
       </header>
-      <main className="max-w-[1200px] mx-auto p-4">
+      <main className="max-w-[1200px] mx-auto p-4 min-h-screen">
         <Outlet />
       </main>
       <Footer />
