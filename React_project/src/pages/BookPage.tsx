@@ -7,18 +7,17 @@ import { setSelectedBook } from '../store/slices/bookSlice';
 import BookDetail from '../components/BookDetails'; 
 import ReviewList from '../components/ReviewList'; 
 import ReviewForm from '../components/ReviewForm'; 
-import { setReviewLoading, setReviews } from '../store/slices/reviewSlice'; 
+import { setReviews } from '../store/slices/reviewSlice'; 
 import useGet from '../hooks/useGet';
 import { Item } from '../types/bookType';
 import { Review } from '../types/reviewType'; 
 
 const BookPage: React.FC = () => {
   const { bookId } = useParams<{ bookId: string }>(); // hämtar bok id från url via useParams
-  const { reviewLoading } = useSelector((state: RootState) => state.reviews);
+  const { reviewLoading, reviews  } = useSelector((state: RootState) => state.reviews);
   const dispatch = useDispatch(); // initierar redux dispatch för att skicka actions
   const { selectedBook } = useSelector((state: RootState) => state.books); // hämtar den valda boken från Redux state
-  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth); // hämtar autentisering och användarinfo från Redux
-  const reviews = useSelector((state: RootState) => state.reviews.reviews);
+  const { user, isAuthenticated } = useSelector((state: RootState) => state.auth); // hämtar autentisering och användarinfo från Redux
   const BASE_URL = import.meta.env.VITE_DATABASE_API_URL; 
   const BOOK_URL = import.meta.env.VITE_BOOKS_API_URL;
   // hämta bokdata från Google Books API
@@ -53,21 +52,21 @@ const BookPage: React.FC = () => {
         }
 
         
+      // Remove the call to setReviews to prevent overwriting the current state
       if (bookId && reviewsData) {
-        dispatch(setReviewLoading(true)); 
         dispatch(setReviews(reviewsData || [])); 
-        dispatch(setReviewLoading(false));
       }
 
       } catch (error) {
         console.error('Fel vid hämtning av bokdata:', error);
-        dispatch(setReviewLoading(false));
+        
       }
+      
     };
 
     fetchBookData(); // hämta bokdata och recensioner
   }, [bookData, bookId, reviewsData, dispatch, reviewLoading]); // Kör om någon av dessa variabler ändras
-
+  
   // visa en spinner om boken håller på att laddas
   if (bookLoading) 
     return (

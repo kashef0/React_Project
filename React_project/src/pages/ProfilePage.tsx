@@ -38,7 +38,7 @@ const ProfilePage: React.FC = () => {
       <h1 className="text-3xl font-bold text-gray-800 mb-4 border-b pb-2">Profil</h1>
       
       <div className="space-y-2">
-        {/* Visar användarnamn och e-post */}
+        
         <p className="text-lg text-gray-700"><span className="font-semibold">Användarens namn:</span> {user.username}</p>
         <p className="text-lg text-gray-700"><span className="font-semibold">Email:</span> {user.email}</p>
       </div>
@@ -46,7 +46,7 @@ const ProfilePage: React.FC = () => {
       <h2 className="text-2xl font-bold text-gray-800 mt-6 border-b pb-2">Dina recensioner</h2>
       
       <div className="mt-4">
-        {/* Visar listan med recensioner */}
+        
         <ReviewList reviews={reviews} />
       </div>
     </div>

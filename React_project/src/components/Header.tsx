@@ -9,7 +9,7 @@ const Header = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const username = localStorage.getItem("username");
-  const userEmail = localStorage.getItem('email');
+  const userEmail = localStorage.getItem('Email');
   useSelector((state: RootState) => state.auth);
   // stänga profil menu när klicka ut navmenu
   useEffect(() => {

@@ -22,7 +22,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ bookId }) => {
   const BASE_URL = import.meta.env.VITE_DATABASE_API_URL; 
   // Använd usePost hooken för att hantera POST förfrågningar
   const { postData, loading: postLoading, error: postError } = usePost<CreateReview>(`${BASE_URL}/review/create`);
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -65,6 +65,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ bookId }) => {
     try {
       // Skicka POST förfrågningen med hjälp av postData
       const createdReview = await postData(review);
+      dispatch(setReviewLoading(true)); 
       if (createdReview) {
         dispatch(addReview(createdReview as Review));
         dispatch(setReviewLoading(true)); 
@@ -81,7 +82,9 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ bookId }) => {
     } finally {
       setLoading(false);
     }
+    
   };
+  
 
   if (!isAuthenticated) {
     return <p>Vänligen logga in för att skicka en recension.</p>;

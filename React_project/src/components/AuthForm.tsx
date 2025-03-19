@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser, registerUser } from "../hooks/authHook";
 import { loginSuccess, registerSuccess } from "../store/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 interface AuthFormProps {
   isLogin: boolean; // kolla om formuläret är för inloggning eller registrering
@@ -13,8 +14,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); // hanterar felmeddelanden
-
-  // Hanterar formulärens submit händelse
+  const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
+  // Hanterar formulären s submit händelse
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
@@ -26,16 +28,20 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
       if (isLogin) {
         const { user, token } = await loginUser({ email, password }); // Anropa loginUser funktionen
         localStorage.setItem("token", token);
+        localStorage.setItem("username", user.username);
+        localStorage.setItem("Email", user.email);
         dispatch(loginSuccess(user)); //  skicka action för att uppdatera Redux store med användaren
+        navigate('/')
       } else {
         const user = await registerUser({ username, email, password }); // Anropa registerUser funktionen
         dispatch(registerSuccess(user)); // Skicka action för att uppdatera Redux store med den registrerade användaren
+        setSuccess("Ditt konto har skapats framgångsrikt!");
       }
     } catch (err: any) {
       if (err.response && err.response.data.message) {
         setError(err.response.data.message);
       } else {
-        setError("Ett fel uppstod. Försök igen.");
+        setError("Lösenord eller mail är inte korrekt. Försök igen.");
       }
     }
   };
@@ -46,6 +52,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
         <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
           {isLogin ? "Logga in" : "Skapa konto"}
         </h1>
+        {success && <p className="text-green-500 text-sm text-center mb-4">{success}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
          
           {!isLogin && (

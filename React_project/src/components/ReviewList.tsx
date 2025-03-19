@@ -55,6 +55,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
     }
   };
 
+
   // Ta bort en recension
   const handleDelete = async (id: string) => {
     const confirmDelete = window.confirm('Är du säker på att du vill ta bort denna recension?');
