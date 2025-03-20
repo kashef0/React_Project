@@ -19,7 +19,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
   // Hanterar formulären s submit händelse
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) {
+
+    setError(""); // Reset error message
+    setSuccess(""); // Reset success message
+
+    if (!email || !password || (!isLogin && !username)) {
       setError("Vänligen fyll i alla fält");
       return;
     }
@@ -38,11 +42,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
         setSuccess("Ditt konto har skapats framgångsrikt!");
       }
     } catch (err: any) {
-      if (err.response && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError("Lösenord eller mail är inte korrekt. Försök igen.");
-      }
+      setError(err.message);
     }
   };
 
@@ -119,7 +119,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
           
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 curser-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {isLogin ? "Logga in" : "Skapa konto"}
           </button>

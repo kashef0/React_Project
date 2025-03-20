@@ -53,9 +53,11 @@ export const registerUser = async (userData: {
 
     const data = await response.json(); 
     return data.user; // returnerar användardatan som skapades vid registrering
-  } catch (error) {
-    console.error(error); 
-    throw new Error('ett fel inträffade.... försök igen.'); 
+  } catch (error: any) {
+    if (error.response && error.response.status === 401) {
+      throw new Error("E-postadressen används redan.");
+    }
+    throw new Error('Något gick fel vid registreringen. Försök igen.'); 
   }
 };
 
@@ -80,9 +82,11 @@ export const loginUser = async (credentials: {
 
     const data = await response.json(); 
     return data; // returnerar användardata och token vid lyckad inloggning
-  } catch (error) {
-    console.error(error); 
-    throw new Error('ett fel inträffade.... försök igen.');
+  } catch (error: any) {
+    if (error.response && error.response.status === 400) {
+      throw new Error("E-post eller lösenord är felaktigt. Försök igen.");
+    }
+    throw new Error('Ett fel inträffade vid inloggning. Försök igen senare.');
   }
 };
 
