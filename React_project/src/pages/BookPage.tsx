@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom'; 
+import { Link, useParams } from 'react-router-dom'; 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store'; 
 import { setSelectedBook } from '../store/slices/bookSlice'; 
@@ -91,7 +91,7 @@ const BookPage: React.FC = () => {
       <div className="mt-4">
         <ReviewList reviews={filteredReviews}/> 
       </div>
-      {!user && <p>Vänligen logga in för att skicka en recension.</p>} 
+      {!user && <p> Vänligen <Link to="/login" className="decoration-blue-900 underline link-text-color">logga in</Link> för att skicka en recension.</p>} 
     
       {isAuthenticated && (
         <div className="mt-6 bg-gray-100 p-4 rounded-xl shadow-md">
