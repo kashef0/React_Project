@@ -21,7 +21,7 @@ export default function usePost<T>(url: string) : {
     // skicka post förfrågan
     const postData = async (req: T) => {
         setLoading(true); 
-
+        setError(null);
         try {
             const token = localStorage.getItem("token");  // Hämta token
             const response = await fetch(url, {
@@ -43,7 +43,7 @@ export default function usePost<T>(url: string) : {
             return responseData;
         } catch (err: any) {
             setError(err.message || "Kunde inte hämta data.");
-            return null;
+            throw err;
         } finally {
             setLoading(false);  
         }

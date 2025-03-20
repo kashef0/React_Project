@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { loginSuccess, registerSuccess } from "../store/slices/authSlice";
@@ -24,12 +24,29 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
   const { postData, error: postError } = usePost<any>(
     isLogin ? `${BASE_URL}/user/signin` : `${BASE_URL}/user/signup`
   );
+
+  const validatePassword = (password: string) => {
+    const passwordValidation = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return passwordValidation.test(password);
+  };
+
+  useEffect(() => {
+    setError("");
+  }, [username, email, password]);
+
   // Hanterar formulären och submit händelse
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     setError("");
     setSuccess(""); 
+
+    if (!isLogin && !validatePassword(password)) {
+      setError(
+        "Lösenordet måste vara minst 8 tecken långt, innehålla en stor bokstav, en liten bokstav, ett nummer och ett specialtecken."
+      );
+      return; 
+    }
     
     if (!email || !password || (!isLogin && !username)) {
       setError("Vänligen fyll i alla fält");
@@ -55,7 +72,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
         localStorage.setItem("user_id", user.id);
         localStorage.setItem("username", user.username);
         localStorage.setItem("email", user.email);
-        dispatch(loginSuccess(user)); 
+        dispatch(loginSuccess(user));
         navigate("/"); 
   
       }
