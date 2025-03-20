@@ -28,10 +28,10 @@ const Pagination: React.FC<PaginationProps> = ({
     // visa alltid först sida
     pages.push(1);
 
-    // Beräkna början och slutet 
+    // Beräkna början och slutet
     const start = Math.max(2, currentPage - maxVisiblePages);
     const end = Math.min(totalPages - 1, currentPage);
-    console.log(start)
+    console.log(start);
     // lägg punkter om fönstret inte startar från den andra sidan
     if (start > 1) {
       pages.push("...");
@@ -92,11 +92,15 @@ const Pagination: React.FC<PaginationProps> = ({
         </div>
       )}
 
-      <nav className="flex space-x-2">
+      <nav className="flex flex-wrap sm:flex-nowrap space-x-2 ">
         <button
           disabled={currentPage === 1}
           onClick={() => onPageChange(currentPage - 1)}
-          className="px-3 py-1 border rounded-md text-gray-700 bg-gray-100 disabled:opacity-50"
+          className={`px-3 py-1 border rounded-md text-gray-700 bg-gray-100 disabled:opacity-50 ${
+            Number(currentPage) <= 1
+              ? "cursor-not-allowed"
+              : "hover:bg-gray-200 duration-300 cursor-pointer "
+          }`}
         >
           Föregående
         </button>
@@ -110,10 +114,13 @@ const Pagination: React.FC<PaginationProps> = ({
             <button
               key={page}
               onClick={() => onPageChange(Number(page))}
+              disabled={Number(page) > currentPage}
               className={`px-3 py-1 border rounded-md ${
                 currentPage === page
                   ? "bg-blue-500 text-white"
-                  : "text-gray-700 bg-gray-100"
+                  : Number(page) > currentPage
+                  ? "opacity-20 cursor-not-allowed text-grey-100"
+                  : "text-gray-700 bg-gray-100 cursor-pointer hover:bg-gray-200 duration-300"
               }`}
             >
               {page}
@@ -124,7 +131,7 @@ const Pagination: React.FC<PaginationProps> = ({
         <button
           disabled={currentPage === totalPages}
           onClick={() => onPageChange(currentPage + 1)}
-          className="px-3 py-1 border rounded-md text-gray-700 bg-gray-100 disabled:opacity-50"
+          className="px-3 py-1 border rounded-md text-gray-700 bg-gray-100 disabled:opacity-50 cursor-pointer hover:bg-gray-200 duration-300"
         >
           Nästa
         </button>
