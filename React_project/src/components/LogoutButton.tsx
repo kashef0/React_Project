@@ -21,7 +21,7 @@ const LogoutButton = () => {
   }
 
   return (
-    <button onClick={handleLogout} className='cursor-pointer'>
+    <button onClick={handleLogout} className='cursor-pointer px-1 py-1 w-full'>
         {isAuthenticated ? "Logga ut" : "Logga in"}
     </button>
   )

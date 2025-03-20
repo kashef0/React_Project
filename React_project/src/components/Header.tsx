@@ -9,7 +9,7 @@ const Header = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const username = localStorage.getItem("username");
-  const userEmail = localStorage.getItem('Email');
+  const userEmail = localStorage.getItem('email');
   useSelector((state: RootState) => state.auth);
   // stänga profil menu när klicka ut navmenu
   useEffect(() => {
@@ -122,7 +122,7 @@ const Header = () => {
               {profileMenuOpen && (
                 <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5">
                   <NavLink
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-700 hover:text-white"
+                    className="block px-5 py-3 w-full text-center cursor-pointer text-sm text-gray-700 hover:bg-gray-700 hover:text-white transition duration-200"
                     to="/profile"
                   >
                     profil

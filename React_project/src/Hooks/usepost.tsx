@@ -41,9 +41,8 @@ export default function usePost<T>(url: string) : {
             const responseData = await response.json();  // Spara data
             setData(responseData);
             return responseData;
-        } catch (error) {
-            console.error("Fel:", error);  
-            setError("Kunde inte hämta data.");
+        } catch (err: any) {
+            setError(err.message || "Kunde inte hämta data.");
             return null;
         } finally {
             setLoading(false);  

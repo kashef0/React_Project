@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { loginSuccess, registerSuccess } from "../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import { loginUser, registerUser } from "../Hooks/authHook";
+import usePost from "../Hooks/usepost";
 
 interface AuthFormProps {
   isLogin: boolean; // kolla om formuläret är för inloggning eller registrering
@@ -17,33 +17,60 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
   const [error, setError] = useState(""); // hanterar felmeddelanden
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
-  // Hanterar formulären s submit händelse
+
+  const BASE_URL = import.meta.env.VITE_DATABASE_API_URL;
+
+  // Använd usePost hook för att hantera inloggning och registrera POST förfrågningar
+  const { postData, error: postError } = usePost<any>(
+    isLogin ? `${BASE_URL}/user/signin` : `${BASE_URL}/user/signup`
+  );
+  // Hanterar formulären och submit händelse
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    setError(""); // Reset error message
-    setSuccess(""); // Reset success message
-
+    
+    setError("");
+    setSuccess(""); 
+    
     if (!email || !password || (!isLogin && !username)) {
       setError("Vänligen fyll i alla fält");
       return;
     }
-
+   
+  
     try {
+      let response;
+  
       if (isLogin) {
-        const { user, token } = await loginUser({ email, password }); // Anropa loginUser funktionen
-        localStorage.setItem("token", token);
-        localStorage.setItem("username", user.username);
-        localStorage.setItem("Email", user.email);
-        dispatch(loginSuccess(user)); //  skicka action för att uppdatera Redux store med användaren
-        navigate('/')
+        response = await postData({ email, password }); // Post loginnig data
       } else {
-        const user = await registerUser({ username, email, password }); // Anropa registerUser funktionen
-        dispatch(registerSuccess(user)); // Skicka action för att uppdatera Redux store med den registrerade användaren
-        setSuccess("Ditt konto har skapats framgångsrikt!");
+        response = await postData({ username, email, password }); // Post registrating data
       }
+      if (!response) {
+        setError(postError || "Kunde inte hämta data.");
+        return;
+      }
+      if (response && isLogin) {
+        const { user, token } = response;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user_id", user.id);
+        localStorage.setItem("username", user.username);
+        localStorage.setItem("email", user.email);
+        dispatch(loginSuccess(user)); 
+        navigate("/"); 
+  
+      }
+  
+      if (!isLogin && response) {
+        const { user } = response;
+        dispatch(registerSuccess(user));
+        setSuccess("Kontot har skapats framgångsrikt! Logga in nu.");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      }
+      
     } catch (err: any) {
-      setError(err.message);
+        setError(err.message || "Kunde inte hämta data.");
     }
   };
 
@@ -120,7 +147,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
           
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 curser-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {isLogin ? "Logga in" : "Skapa konto"}
           </button>
