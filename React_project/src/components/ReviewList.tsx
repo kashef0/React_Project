@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import usePut from '../hooks/usePut';
-import useDelete from '../hooks/useDelete';
+
 import { deleteReview, updateReview } from '../store/slices/reviewSlice';
 import { Review } from '../types/reviewType';
 import ReviewStar from './ReviewStar';
+import usePut from '../Hooks/usePut';
+import useDelete from '../Hooks/useDelete';
 
 interface ReviewListProps {
   reviews: Review[];

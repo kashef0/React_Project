@@ -9,7 +9,7 @@ import BookList from "../components/BookList";
 import { BookItem, Book, Item } from "../types/bookType";
 
 import Pagination from "../components/Pagination";
-import useGet from "../hooks/useGet";
+import useGet from "../Hooks/useGet";
 
 const HomePage: React.FC = () => {
   const dispatch = useDispatch();

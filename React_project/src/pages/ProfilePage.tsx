@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { setReviews } from '../store/slices/reviewSlice';
-import { getReviewsByUserId } from '../hooks/reviewHook';
 import ReviewList from '../components/ReviewList';
+import { getReviewsByUserId } from '../Hooks/reviewHook';
 
 const ProfilePage: React.FC = () => {
   const dispatch = useDispatch();

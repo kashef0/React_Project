@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginUser, registerUser } from "../hooks/authHook";
+
 import { loginSuccess, registerSuccess } from "../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { loginUser, registerUser } from "../Hooks/authHook";
 
 interface AuthFormProps {
   isLogin: boolean; // kolla om formuläret är för inloggning eller registrering

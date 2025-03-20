@@ -8,9 +8,10 @@ import BookDetail from '../components/BookDetails';
 import ReviewList from '../components/ReviewList'; 
 import ReviewForm from '../components/ReviewForm'; 
 import { setReviews } from '../store/slices/reviewSlice'; 
-import useGet from '../hooks/useGet';
 import { Item } from '../types/bookType';
 import { Review } from '../types/reviewType'; 
+import useGet from '../Hooks/useGet';
+
 
 const BookPage: React.FC = () => {
   const { bookId } = useParams<{ bookId: string }>(); // hämtar bok id från url via useParams

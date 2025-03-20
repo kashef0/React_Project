@@ -4,10 +4,10 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
 import BookPage from "./pages/BookPage";
-import ProtectedRoute from "./context/protected";
 import ProfilePage from "./pages/ProfilePage";
 import AboutProjectPage from "./pages/AboutProjectPage";
 import NotFound from "./components/NotFound";
+import ProtectedRoute from "./Context/protected";
 
 
 
