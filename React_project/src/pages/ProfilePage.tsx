@@ -11,10 +11,13 @@ const ProfilePage: React.FC = () => {
   const reviews = useSelector((state: RootState) => state.reviews.reviews);
   const BASE_URL = import.meta.env.VITE_DATABASE_API_URL;
 
+  const authToken = localStorage.getItem("token");
+  const validAuthToken = authToken ?? undefined;
   const { data, error, loading } = useGet<{ reviews: any[] }>(
-    `${BASE_URL}/review/user/`,
+    `${BASE_URL}/review/user`,
     !!user, // Uppdatera när användaren ändras
-    user?.id // Skicka userid om tillgängligt
+    user?.id,
+    validAuthToken // Skicka userid om tillgängligt
   );
   // Hämta användarens recensioner när komponenten laddas eller när användaren ändras
   useEffect(() => {
