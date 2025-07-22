@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginUser, registerUser } from "../hooks/authHook";
+
 import { loginSuccess, registerSuccess } from "../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { loginUser, registerUser } from "../Hooks/authHook";
 
 interface AuthFormProps {
   isLogin: boolean; // kolla om formuläret är för inloggning eller registrering
@@ -41,6 +42,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
         dispatch(registerSuccess(user)); // Skicka action för att uppdatera Redux store med den registrerade användaren
         setSuccess("Ditt konto har skapats framgångsrikt!");
       }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }
