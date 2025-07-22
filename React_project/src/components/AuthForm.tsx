@@ -21,6 +21,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
   const BASE_URL = import.meta.env.VITE_DATABASE_API_URL;
 
   // Använd usePost hook för att hantera inloggning och registrera POST förfrågningar
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { postData, error: postError } = usePost<any>(
     isLogin ? `${BASE_URL}/user/signin` : `${BASE_URL}/user/signup`
   );
@@ -73,6 +74,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
         localStorage.setItem("username", user.username);
         localStorage.setItem("email", user.email);
         dispatch(loginSuccess(user));
+        localStorage.setItem("user", JSON.stringify(user));
         navigate("/"); 
   
       }
@@ -86,6 +88,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin }) => {
         }, 2000);
       }
       
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
         setError(err.message || "Kunde inte hämta data.");
     }
