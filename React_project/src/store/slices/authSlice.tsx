@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../../types/authType';
 
+const storedUser = localStorage.getItem("user");
 // Definiera initialt autentisering
 interface AuthState {
   user: User | null; 
@@ -11,8 +12,8 @@ interface AuthState {
 
 // Initialt tillstånd för autentisering
 const initialState: AuthState = {
-  user: null, // Ingen användare inloggad 
-  isAuthenticated: false, // Användaren är inte autentiserad
+  user: storedUser ? JSON.parse(storedUser) : null, // Ingen användare inloggad 
+  isAuthenticated: !!storedUser, // Användaren är inte autentiserad
   loading: false, // Ingen laddning pågår 
   error: null, // Ingen felmeddelande 
 };
