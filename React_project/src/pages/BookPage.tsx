@@ -25,7 +25,7 @@ const BookPage: React.FC = () => {
     bookId ? `${BOOK_URL }/${bookId}` : '' // api anrop för att hämta bokdata med bok id
   , true);
   // hämta recensioner för den valda boken från API
-  const { data: reviewsData } = useGet<Review[]>(
+  const { data: reviewsData, fetchData } = useGet<Review[]>(
     bookId
       ? `${BASE_URL}/review/book/${bookId}` // api anrop för att hämta recensioner baserat på bok id
       : '', 
@@ -95,7 +95,7 @@ const BookPage: React.FC = () => {
       {isAuthenticated && (
         <div className="mt-6 bg-gray-100 p-4 rounded-xl shadow-md">
           <h3 className="text-xl font-semibold text-gray-700 mb-3">Skriv en recension</h3> 
-          <ReviewForm bookId={bookId!} /> 
+          <ReviewForm bookId={bookId!} refetchReviews={fetchData} /> 
         </div>
       )}
     </div>
