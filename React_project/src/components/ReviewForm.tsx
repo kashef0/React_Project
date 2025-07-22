@@ -8,10 +8,11 @@ import usePost from '../Hooks/usepost';
 
 interface ReviewFormProps {
   bookId: string;
+  refetchReviews: () => void;
   
 }
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ bookId }) => {
+const ReviewForm: React.FC<ReviewFormProps> = ({ bookId, refetchReviews }) => {
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(5);
   const [error, setError] = useState('');
@@ -69,7 +70,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ bookId }) => {
       dispatch(setReviewLoading(true)); 
       if (createdReview) {
         dispatch(addReview(createdReview as Review));
-        dispatch(setReviewLoading(true)); 
+        refetchReviews();
+        // dispatch(setReviewLoading(true)); 
         setReviewText('');
         setRating(5);
         setError('');
